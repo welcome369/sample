@@ -54,6 +54,20 @@
 	</issueManagement>
 
 	-->
+
+	<distributionManagement>
+          <repository>
+            <id>central</id>
+            <name>DESKTOP-L85PK29-releases</name>
+            <url>http://192.168.40.1:8081/artifactory/maven-repo</url>
+          </repository>
+          <snapshotRepository>
+            <id>central</id>
+            <name>DESKTOP-L85PK29-snapshots</name>
+            <url>http://192.168.40.1:8081/artifactory/maven-repo</url>
+          </snapshotRepository>
+       </distributionManagement>
+	
 	<build>
 	  <plugins>
 	    <plugin>
