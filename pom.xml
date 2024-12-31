@@ -78,6 +78,17 @@
 </dependency>
 	</dependencies>
 
+<distributionManagement>
+        <repository>
+            <id>project-releases</id>
+            <url>http://192.168.40.1:8081/repository/project-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>project-snapshots</id>
+            <url>http://192.168.40.1:8081/repository/project-snapshots/</url>
+        </snapshotRepository>
+ </distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -115,17 +126,5 @@
 </plugin>
 		</plugins>
 	</build>
-
-
-	 <distributionManagement>
-        <repository>
-            <id>maven-releases</id>
-            <url>http://43.205.242.45:8081/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>maven-snapshots</id>
-            <url>http://43.205.242.45:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>
