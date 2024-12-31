@@ -89,6 +89,14 @@
         </snapshotRepository>
  </distributionManagement>
 
+ <repositories>
+	<repository>
+            <id>project</id>
+            <url>http://192.168.40.1:8081/repository/maven-remote/</url>
+        </repository>
+ <repositories>
+	 
+ 
 	<build>
 		<plugins>
 			<plugin>
