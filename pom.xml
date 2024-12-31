@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.javaproject</groupId>
 	<artifactId>database_service_project</artifactId>
-	<version>0.0.7</version>
+	<version>0.0.7-SNAPSHOT</version>
 	<name>database_service_project</name>
 	<description>Project for Spring Boot</description>
 	<packaging>jar</packaging>
@@ -80,11 +80,11 @@
 
 <distributionManagement>
         <repository>
-            <id>project-releases</id>
+            <id>project</id>
             <url>http://192.168.40.1:8081/repository/project-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>project-snapshots</id>
+            <id>project</id>
             <url>http://192.168.40.1:8081/repository/project-snapshots/</url>
         </snapshotRepository>
  </distributionManagement>
