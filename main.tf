@@ -25,7 +25,7 @@ resource "aws_key_pair" "public-key" {
 # Save the private key locally (optional, but helpful)
 resource "local_file" "private_key" {
   content  = tls_private_key.keypair.private_key_pem
-  filename = "/home/ubuntu/ec2/my-keypair.pem"
+  filename = "/home/ubuntu/my-keypair.pem"
   file_permission = "0400"
 }
 
