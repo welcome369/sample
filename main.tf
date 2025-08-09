@@ -22,12 +22,6 @@ resource "aws_key_pair" "public-key" {
   public_key = tls_private_key.keypair.public_key_openssh
 }
 
-# Save the private key locally (optional, but helpful)
-resource "local_file" "private_key" {
-  content  = tls_private_key.keypair.private_key_pem
-  filename = "/home/jenkins/ec2/my-keypair.pem"
-  file_permission = "0400"
-}
 
 data "aws_vpc" "default" {
   default = true
