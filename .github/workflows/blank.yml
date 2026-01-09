@@ -1,29 +1,32 @@
-name: Check AWS Access
-
-on: 
-  push:
-      branches:
-        - main
-
-# permission can be added at job level or workflow level
-permissions:
-  id-token: write   # This is required for requesting the JWT
-  contents: read    # This is required for actions/checkout
-  
+name: Terraform Deployment
+on: push
 jobs:
-  check-access:
+  Deployment:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v6.0.1
-    
-      - name: Configure AWS credentials
+
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+        with:
+          terraform_version: "1.14.3"
+
+      - name: "Configure AWS Credentials" for GitHub Actions
         uses: aws-actions/configure-aws-credentials@v5.1.1
         with:
-          role-to-assume: arn:aws:iam::294393683200:role/github-actions-aws-demo
-          role-session-name: aws-github-actions
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
       - name: Verify AWS credentials
         run: aws sts get-caller-identity
-
+       
+      - name: Terraform Init, validate, plan
+        run: |
+          terraform init
+          terraform validate
+          terraform plan -out=tfplan
+          
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
