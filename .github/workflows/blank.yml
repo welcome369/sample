@@ -1,6 +1,7 @@
 name: Check AWS Access
 
-on: push
+on: 
+  push:
       branches:
         - main
         
