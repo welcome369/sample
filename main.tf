@@ -3,5 +3,5 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_bucket" {
-  bucket = "my-terraform-state-bucket3695766"  # Change to a unique name
+  bucket = "my-terraform-state-bucket3695799"  # Change to a unique name
 }
