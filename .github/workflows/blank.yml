@@ -15,8 +15,8 @@ jobs:
       - name: Configure AWS Credentials for GitHub Actions
         uses: aws-actions/configure-aws-credentials@v5.1.1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::294393683200:role/github-actions-aws-demo
+          role-session-name: aws-github-actions
           aws-region: ap-south-1
 
       - name: Verify AWS credentials
@@ -27,6 +27,6 @@ jobs:
           terraform init
           terraform validate
           terraform plan -out=tfplan
-          
+
       - name: Terraform Apply
-        run: terraform destroy -auto-approve
+        run: terraform apply -auto-approve
