@@ -12,7 +12,7 @@ jobs:
         with:
           terraform_version: "1.14.3"
 
-      - name: "Configure AWS Credentials" for GitHub Actions
+      - name: Configure AWS Credentials for GitHub Actions
         uses: aws-actions/configure-aws-credentials@v5.1.1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
