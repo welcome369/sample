@@ -1,0 +1,70 @@
+name: patient-service.js application CI-CD flow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6.0.1
+      
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v6.1.0
+        with:
+          node-version: 25.2.1
+
+      - name: Install dependencies
+        run: |
+          npm init -y
+          npm install express
+
+      - name: Build and push images
+        uses: docker/build-push-action@v6.18.0  
+        with:
+          context: .
+          load: true              # IMPORTANT: loads image locally
+          tags: patient-service:latest
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5.1.1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Verify AWS credentials
+        run: aws sts get-caller-identity
+
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+        with:
+          terraform_version: "1.14.3"
+       
+      - name: Terraform Init, validate, plan
+        run: |
+          terraform init
+          terraform validate
+          terraform plan -out=tfplan
+          
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+#Capture Output as GitHub Action Output
+      - name: Get ECR URL
+        id: tf-output
+        run: |
+          echo "ecr_url=$(terraform output -raw ecr_repository_url)" >> $GITHUB_OUTPUT
+
+      - name: Amazon ECR "Login" Action for GitHub Actions
+        uses: aws-actions/amazon-ecr-login@v2.0.1
+
+      - name: Build and push Docker images to ECR
+        env:
+          ECR_URL: ${{ steps.tf-output.outputs.ecr_url }}
+        run: |
+          docker tag  patient-service:latest  $ECR_URL:patient-service 
+          docker push $ECR_URL:patient-service
+          docker run --name patient-service -d -p 9595:3000  $ECR_URL:patient-service
+          docker ps -a
